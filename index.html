@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nishant | Radio Astronomer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=Work+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07060a;--panel:rgba(22,16,12,.72);--text:#efe6dc;--muted:#b3a496;--glow:#ffb35c;--line:rgba(255,179,92,.28)}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:var(--bg);color:var(--text);font:17px/1.7 'Work Sans',sans-serif}
+h1,h2,h3{font-family:'Spectral',serif;font-weight:600;line-height:1.2;margin:0 0 .6rem}
+a{color:var(--glow)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--glow);outline-offset:3px}
+
+/* Fixed black-hole background; the dark layer fades lighter on Home */
+.bg{position:fixed;inset:0;z-index:-2;background:url('images/blackhole.jpg') 70% center/cover no-repeat}
+.veil{position:fixed;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(7,6,10,.9),rgba(7,6,10,.55));transition:opacity .9s ease}
+body:not(.home) .veil{background:rgba(7,6,10,.88)}
+
+/* NAV */
+header{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding:.8rem 1.6rem;background:linear-gradient(rgba(7,6,10,.85),transparent)}
+.brand{font-family:'Spectral',serif;font-size:1.25rem;color:var(--text);text-decoration:none}
+nav{display:flex;gap:1.3rem;flex-wrap:wrap}
+nav a{color:var(--muted);text-decoration:none;font-size:.95rem;padding:.2rem 0;border-bottom:2px solid transparent;transition:color .3s,border-color .3s}
+nav a:hover,nav a.active{color:var(--text);border-color:var(--glow)}
+
+/* PAGES + SMOOTH TRANSITIONS */
+.page{display:none;max-width:980px;margin:0 auto;padding:7rem 1.6rem 4rem;opacity:0;transform:translateY(14px);filter:blur(4px);transition:opacity .55s ease,transform .55s ease,filter .55s ease}
+.page.show{display:block}
+.page.in{opacity:1;transform:none;filter:none}
+#home.show{display:grid;min-height:100vh;align-items:center;grid-template-columns:320px 1fr;gap:3rem;padding-top:5rem}
+#home img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:50%;border:3px solid var(--glow);box-shadow:0 0 70px rgba(255,179,92,.35)}
+#home h1{font-size:clamp(2.4rem,6vw,4rem)}
+#home .lead{color:var(--glow);font-family:'Spectral',serif;font-style:italic;font-size:1.3rem;margin-bottom:1rem}
+.page h2{font-size:2.3rem}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:1.4rem;backdrop-filter:blur(6px)}
+.banner{width:100%;height:240px;object-fit:cover;border-radius:10px;margin:1rem 0 1.5rem}
+.sub{display:grid;grid-template-columns:1fr 1.2fr;gap:1.6rem;align-items:center;margin:1.4rem 0}
+.sub:nth-of-type(even) img,.sub:nth-of-type(even) .ph{order:2}
+.sub img,.ph{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:8px}
+.ph{display:grid;place-items:center;text-align:center;border:1px dashed var(--line);color:var(--muted);font-size:.85rem;padding:1rem}
+.sub h3{color:var(--glow)}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin:1.4rem 0}
+.flow div{background:var(--panel);border:1px solid var(--glow);border-radius:8px;padding:.6rem 1rem;font-size:.92rem}
+.flow span{color:var(--glow);font-size:1.3rem}
+pre{background:rgba(0,0,0,.5);border:1px solid var(--line);padding:1rem;border-radius:8px;overflow-x:auto;font-size:.85rem}
+.btn{display:inline-block;margin:.5rem .6rem 0 0;padding:.65rem 1.3rem;border:1px solid var(--glow);border-radius:999px;text-decoration:none;transition:background .3s,color .3s}
+.btn:hover{background:var(--glow);color:var(--bg)}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin-top:1.4rem}
+.gallery figure{margin:0}
+.gallery img,.gallery .ph{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px}
+figcaption{font-size:.88rem;color:var(--muted);margin-top:.3rem}
+.pub{padding:1rem 0;border-bottom:1px solid var(--line)}
+.pub b{font-family:'Spectral',serif;font-size:1.1rem;font-weight:600}
+.pub small{display:block;color:var(--muted)}
+footer{text-align:center;color:var(--muted);font-size:.85rem;padding:2rem 1rem}
+@media(max-width:760px){#home.show{grid-template-columns:1fr;text-align:center;padding-top:7rem}#home img{max-width:240px;margin:0 auto}.sub{grid-template-columns:1fr}.sub:nth-of-type(even) img,.sub:nth-of-type(even) .ph{order:0}}
+@media(prefers-reduced-motion:reduce){.page{transition:none;transform:none;filter:none}}
+</style>
+</head>
+<body class="home">
+<div class="bg"></div><div class="veil"></div>
+
+<header>
+  <a class="brand" href="#home" data-text="name">Nishant</a>
+  <nav>
+    <a href="#home">About me</a><a href="#research">Research</a><a href="#publications">Publications</a>
+    <a href="#tutorial">Tutorial</a><a href="#enthusiasts">Astronomy for enthusiasts</a><a href="#hobbies">Hobbies</a>
+  </nav>
+</header>
+
+<!-- ========== ABOUT ME (landing page, nothing else on it) ========== -->
+<main class="page" id="home">
+  <img src="images/me.jpg" alt="Portrait standing in front of the RUDRA supercomputer racks">
+  <div>
+    <h1 data-text="name">Nishant</h1>
+    <p class="lead">Radio astronomer, chasing the fastest flashes in the sky.</p>
+    <!-- ✏️ EDIT: temporary text -->
+    <p>I'm a [student/researcher] at [your institute], Pune. I work with radio telescopes, especially the GMRT, to find and study pulsars, fast radio bursts and other fast transients.</p>
+    <p>I'm interested in how extreme objects like neutron stars behave, and in the software that helps us find them in huge amounts of data. Right now I'm working on [current project], as part of the SPOTLIGHT team.</p>
+    <p>Outside work, I like [hobby 1] and [hobby 2], and I enjoy explaining the universe to anyone curious.</p>
+    <a class="btn" href="#research">See my research</a>
+    <a class="btn" data-link="github" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</main>
+
+<!-- ========== RESEARCH ========== -->
+<main class="page" id="research">
+  <h2>Research</h2>
+  <img class="banner" src="images/gmrt.jpg" alt="GMRT antennas at sunset">
+  <!-- ✏️ EDIT -->
+  <p>I was introduced to radio astronomy about 3.5 years ago, and I've been hooked since. These are the topics I've worked on.</p>
+
+  <!-- To add a topic: copy one whole <div class="sub"> block and paste it below -->
+  <div class="sub">
+    <img src="images/lpt.jpg" alt="Long period transient">
+    <div><h3>Long Period Transients (LPTs)</h3>
+    <p>LPTs are radio sources that flash every few minutes to hours, far slower than ordinary pulsars. What powers them is still debated, with slowly spinning magnetars and white dwarf systems among the candidates. [Add your work here]</p></div>
+  </div>
+  <div class="sub">
+    <img src="images/frb.jpg" alt="Fast radio burst">
+    <div><h3>Fast Radio Bursts (FRBs)</h3>
+    <p>FRBs are millisecond flashes of radio light from distant galaxies. Some repeat, most don't, and their origin remains open. They also act as probes of the gas between galaxies. [Add your work here]</p></div>
+  </div>
+  <div class="sub">
+    <img src="images/pulsars.jpg" alt="Pulsar">
+    <div><h3>Pulsars</h3>
+    <p>Pulsars are fast-spinning neutron stars whose radio beams sweep past Earth like a lighthouse. Their precise timing lets us test gravity and study dense matter. [Add your work here]</p></div>
+  </div>
+  <div class="sub">
+    <img src="images/gmrt.jpg" alt="GMRT antennas at sunset">
+    <div><h3>The SPOTLIGHT project</h3>
+    <p>SPOTLIGHT is a real-time, commensal survey at the GMRT that searches for FRBs, pulsars and LPTs while the telescope observes for other projects. It runs on a petaflop-scale GPU computing system and can localise bursts on the sky within seconds. [Add your role here]</p>
+    <a class="btn" data-link="spotlight" target="_blank" rel="noopener">SPOTLIGHT website</a></div>
+  </div>
+</main>
+
+<!-- ========== PUBLICATIONS (auto-updating) ========== -->
+<main class="page" id="publications">
+  <h2>Publications</h2>
+  <p>This list updates itself from the OpenAlex database, which tracks new papers and arXiv preprints by ORCID.</p>
+  <a class="btn" data-link="scholar" target="_blank" rel="noopener">Google Scholar profile</a>
+  <a class="btn" data-link="orcid" target="_blank" rel="noopener">ORCID</a>
+  <div id="pubs" style="margin-top:1.2rem">Loading publications…</div>
+</main>
+
+<!-- ========== TUTORIAL ========== -->
+<main class="page" id="tutorial">
+  <h2>Tutorial: how my analysis works</h2>
+  <!-- ✏️ EDIT: all placeholder -->
+  <p>Follow my workflow on real data with my own code, from raw telescope output to a candidate signal.</p>
+  <div class="flow">
+    <div>Raw telescope data</div><span>&rarr;</span><div>Remove interference (RFI)</div><span>&rarr;</span>
+    <div>Correct for dispersion</div><span>&rarr;</span><div>Search for signals</div><span>&rarr;</span><div>Inspect candidates</div>
+  </div>
+  <div class="card">
+    <h3>Step 1: Load the data</h3>
+    <p>Download the <a href="data/sample_data.fil">sample data</a> and run:</p>
+    <pre>python load_data.py --file data/sample_data.fil</pre>
+    <a class="btn" data-link="github" target="_blank" rel="noopener">Get the code on GitHub</a>
+  </div>
+</main>
+
+<!-- ========== ASTRONOMY FOR ENTHUSIASTS ========== -->
+<main class="page" id="enthusiasts">
+  <h2>Astronomy for enthusiasts</h2>
+  <p>I write simple explainers about astronomical objects and about research happening right now, with no jargon needed. Find them on Instagram.</p>
+  <a class="btn" data-link="instagram" target="_blank" rel="noopener">Follow on Instagram</a>
+  <h3 style="margin-top:2rem">Good places to read more</h3>
+  <!-- ✏️ EDIT: add the sources you like -->
+  <p><a data-link="spotlight" target="_blank" rel="noopener">SPOTLIGHT official website</a><br>
+  <a href="https://www.ncra.tifr.res.in/" target="_blank" rel="noopener">NCRA-TIFR</a></p>
+</main>
+
+<!-- ========== HOBBIES ========== -->
+<main class="page" id="hobbies">
+  <h2>Hobbies</h2>
+  <p>A bit more about me away from the telescope.</p>
+  <div class="gallery">
+    <!-- ✏️ EDIT OFTEN: copy a <figure>, change the image name and caption -->
+    <figure><img src="images/hobby1.jpg" alt="Hobby 1"><figcaption>Hobby 1: caption</figcaption></figure>
+    <figure><img src="images/hobby2.jpg" alt="Hobby 2"><figcaption>Hobby 2: caption</figcaption></figure>
+    <figure><img src="images/hobby3.jpg" alt="Hobby 3"><figcaption>Hobby 3: caption</figcaption></figure>
+  </div>
+</main>
+
+<footer>&copy; 2026 <span data-text="name">Nishant</span></footer>
+
+<script>
+/* ✏️ EDIT HERE: all your personal links live in this one block */
+const CONFIG = {
+  name: 'Nishant',                                          // add your surname
+  github: 'https://github.com/your-username',
+  spotlight: 'https://spotlight.ncra.tifr.res.in/',
+  scholar: 'https://scholar.google.com/citations?user=YOUR_ID',
+  orcid: '',                                                // e.g. '0000-0002-1234-5678'; powers Publications
+  instagram: 'https://www.instagram.com/your_username'
+};
+
+document.querySelectorAll('[data-text="name"]').forEach(e => e.textContent = CONFIG.name);
+document.querySelectorAll('[data-link]').forEach(a => {
+  const k = a.dataset.link;
+  a.href = k === 'orcid' ? 'https://orcid.org/' + CONFIG.orcid : CONFIG[k];
+});
+
+/* Missing images show a dashed box saying which file to add */
+document.querySelectorAll('img').forEach(img => img.addEventListener('error', () => {
+  const d = document.createElement('div');
+  d.className = 'ph'; d.textContent = 'Add ' + img.getAttribute('src');
+  img.replaceWith(d);
+}));
+
+/* Page switching with fade */
+const pages = [...document.querySelectorAll('.page')];
+let current = null;
+function go() {
+  const id = (location.hash || '#home').slice(1);
+  const next = document.getElementById(id) || document.getElementById('home');
+  if (next === current) return;
+  const show = () => {
+    pages.forEach(p => p.classList.remove('show', 'in'));
+    next.classList.add('show');
+    window.scrollTo(0, 0);
+    requestAnimationFrame(() => requestAnimationFrame(() => next.classList.add('in')));
+    current = next;
+    document.body.classList.toggle('home', next.id === 'home');
+    document.querySelectorAll('nav a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + next.id));
+    if (next.id === 'publications') loadPubs();
+  };
+  if (current) { current.classList.remove('in'); setTimeout(show, 350); } else show();
+}
+window.addEventListener('hashchange', go); go();
+
+/* Publications from OpenAlex (updates automatically) */
+let pubsLoaded = false;
+async function loadPubs() {
+  if (pubsLoaded) return;
+  const box = document.getElementById('pubs');
+  if (!CONFIG.orcid) { box.textContent = 'Add your ORCID in CONFIG (bottom of index.html) to show papers here.'; return; }
+  try {
+    const url = 'https://api.openalex.org/works?filter=author.orcid:https://orcid.org/' + CONFIG.orcid +
+                '&sort=publication_date:desc&per-page=50';
+    const data = await (await fetch(url)).json();
+    box.textContent = '';
+    if (!data.results.length) { box.textContent = 'No papers found yet for this ORCID.'; return; }
+    data.results.forEach(w => {
+      const div = document.createElement('div'); div.className = 'pub';
+      const t = document.createElement('a'); t.href = w.doi || w.id; t.target = '_blank'; t.rel = 'noopener';
+      const b = document.createElement('b'); b.textContent = w.title; t.appendChild(b);
+      const authors = w.authorships.map(a => a.author.display_name);
+      const s = document.createElement('small');
+      s.textContent = (authors.length > 6 ? authors.slice(0, 6).join(', ') + ' et al.' : authors.join(', ')) +
+        ' · ' + (w.primary_location?.source?.display_name || 'Preprint') + ' · ' + w.publication_year;
+      div.append(t, s); box.appendChild(div);
+    });
+    pubsLoaded = true;
+  } catch (e) { box.textContent = 'Could not load publications right now. Try the Google Scholar link above.'; }
+}
+</script>
+</body>
+</html>
